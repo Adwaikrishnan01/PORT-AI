@@ -1,7 +1,9 @@
+"use client"
 import { UserButton } from "@clerk/nextjs"
 import { Card } from "../../../../components/ui/card"
-import { Image, MessageCircle, MessageSquare, Music3Icon, Video } from "lucide-react"
+import { ArrowRight, Image, MessageCircle, MessageSquare, Music3Icon, Video } from "lucide-react"
 import { cn } from "../../../../lib/utils"
+import { useRouter } from "next/navigation"
 const tools=[
     {
     label:"Conversation",
@@ -36,21 +38,22 @@ const tools=[
 ]
 
 const DashboardPage=()=>{
-
+const router=useRouter()
     return(<div>
         <div className="mb-8 space-y-4">
             <h2 className="text 2xl md:text-4xl font-bold text-center">Explore the power of AI</h2>
         </div>
         <div className="px-4 md:px-20 lg:px-30 space-y-4">
            {tools.map((tool)=>(
-              <Card className="p-4 border-black/6 flex items-center justify-between cursor-pointer" key={tool.href}>
+              <Card className="p-4 border-black/6 flex items-center justify-between cursor-pointer" key={tool.href}
+                onClick={()=>router.push(tool.href)}>
                 <div className="flex items-center gap-x-4">
                     <div className={cn("p-2 w-fit rounded-md",tool.bgColor)}>
                         <tool.icon className={cn("w-8 h-8",tool.color)}></tool.icon></div>
                     
                     <div className="font-semibold">{tool.label}</div>
                     </div>
-                
+                <ArrowRight className="w-6 h-6"/>
               </Card>
            ))}
         </div>
