@@ -16,7 +16,8 @@ import {
 import { Input } from "../../../../components/ui/input"
 import { Button } from "../../../../components/ui/button";
 import { ChatCompletionRequestMessage } from "openai";
-
+import { cn } from "../../../../lib/utils";
+import { useState } from "react";
 const ConversationPage = () => {
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
     const form = useForm<z.infer<typeof formSchema>>({
@@ -26,7 +27,7 @@ const ConversationPage = () => {
           },
         })
 const isLoading = form.formState.isSubmitting;
-        function onSubmit(values: z.infer<typeof formSchema>) {
+const onSubmit = async (values: z.infer<typeof formSchema>) =>{
           try {
             const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
             const newMessages = [...messages, userMessage];
@@ -39,7 +40,20 @@ const isLoading = form.formState.isSubmitting;
            console.log(error)
             }
         }
-      
+        //new
+        // try {
+        //   const response = await openai.completions.create({...});
+        // } catch (error) {
+        //   if (error instanceof OpenAI.APIError) {
+        //     console.error(error.status);  // e.g. 401
+        //     console.error(error.message); // e.g. The authentication token you passed was invalid...
+        //     console.error(error.code);  // e.g. 'invalid_api_key'
+        //     console.error(error.type);  // e.g. 'invalid_request_error'
+        //   } else {
+        //     // Non-API error
+        //     console.log(error);
+        //   }
+        // }
 
    return (<><div>
       <Heading title="conversation"
@@ -86,7 +100,7 @@ const isLoading = form.formState.isSubmitting;
                   message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
                 )}
               >
-                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
+                {/* {message.role === "user" ? <UserAvatar /> : <BotAvatar />} */}
                 <p className="text-sm">
                   {message.content}
                 </p>
